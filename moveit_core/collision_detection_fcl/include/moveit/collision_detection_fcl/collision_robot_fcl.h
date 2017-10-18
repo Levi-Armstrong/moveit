@@ -78,10 +78,16 @@ public:
 
   virtual double distanceSelf(const robot_state::RobotState& state) const;
   virtual double distanceSelf(const robot_state::RobotState& state, const AllowedCollisionMatrix& acm) const;
+  virtual void distanceSelf(const DistanceRequest &req, DistanceResult &res, const robot_state::RobotState &state) const;
+
   virtual double distanceOther(const robot_state::RobotState& state, const CollisionRobot& other_robot,
                                const robot_state::RobotState& other_state) const;
   virtual double distanceOther(const robot_state::RobotState& state, const CollisionRobot& other_robot,
                                const robot_state::RobotState& other_state, const AllowedCollisionMatrix& acm) const;
+
+  virtual double distanceOther(const DistanceRequest &req, DistanceResult &res,
+                               const robot_state::RobotState& state, const CollisionRobot& other_robot,
+                               const robot_state::RobotState& other_state) const;
 
 protected:
   virtual void updatedPaddingOrScaling(const std::vector<std::string>& links);
@@ -94,8 +100,14 @@ protected:
   void checkOtherCollisionHelper(const CollisionRequest& req, CollisionResult& res,
                                  const robot_state::RobotState& state, const CollisionRobot& other_robot,
                                  const robot_state::RobotState& other_state, const AllowedCollisionMatrix* acm) const;
+
   double distanceSelfHelper(const robot_state::RobotState& state, const AllowedCollisionMatrix* acm) const;
   double distanceOtherHelper(const robot_state::RobotState& state, const CollisionRobot& other_robot,
+                             const robot_state::RobotState& other_state, const AllowedCollisionMatrix* acm) const;
+
+  void distanceSelfHelper(const DistanceRequest &req, DistanceResult &res, const robot_state::RobotState &state) const;
+  double distanceOtherHelper(const DistanceRequest &req, DistanceResult &res, const robot_state::RobotState &state,
+                              const robot_state::RobotState& state, const CollisionRobot& other_robot,
                              const robot_state::RobotState& other_state, const AllowedCollisionMatrix* acm) const;
 
   std::vector<FCLGeometryConstPtr> geoms_;

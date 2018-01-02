@@ -613,7 +613,7 @@ public:
     dreq.acm = &getAllowedCollisionMatrix();
     dreq.enableGroup(getCollisionRobot()->getRobotModel());
     getCollisionWorld()->distanceRobot(dreq, dres, *getCollisionRobot(), kstate);
-    return dres.minimum_distance.min_distance;
+    return dres.minimum_distance.distance;
   }
 
   /** \brief The distance between the robot model at state \e kstate to the nearest collision (ignoring self-collisions)
@@ -627,7 +627,7 @@ public:
     dreq.acm = &getAllowedCollisionMatrix();
     dreq.enableGroup(getCollisionRobot()->getRobotModel());
     getCollisionWorld()->distanceRobot(dreq, dres, *getCollisionRobot(), kstate);
-    return dres.minimum_distance.min_distance;
+    return dres.minimum_distance.distance;
   }
 
   /** \brief The distance between the robot model at state \e kstate to the nearest collision (ignoring
@@ -642,7 +642,7 @@ public:
     dreq.acm = &getAllowedCollisionMatrix();
     dreq.enableGroup(getCollisionRobotUnpadded()->getRobotModel());
     getCollisionWorld()->distanceRobot(dreq, dres, *getCollisionRobotUnpadded(), kstate);
-    return dres.minimum_distance.min_distance;
+    return dres.minimum_distance.distance;
   }
 
   /** \brief The distance between the robot model at state \e kstate to the nearest collision (ignoring
@@ -656,7 +656,7 @@ public:
     dreq.acm = &getAllowedCollisionMatrix();
     dreq.enableGroup(getCollisionRobotUnpadded()->getRobotModel());
     getCollisionWorld()->distanceRobot(dreq, dres, *getCollisionRobotUnpadded(), kstate);
-    return dres.minimum_distance.min_distance;
+    return dres.minimum_distance.distance;
   }
 
   /** \brief The distance between the robot model at state \e kstate to the nearest collision, ignoring self-collisions
@@ -672,7 +672,7 @@ public:
     dreq.acm = &acm;
     dreq.enableGroup(getCollisionRobot()->getRobotModel());
     getCollisionWorld()->distanceRobot(dreq, dres, *getCollisionRobot(), kstate);
-    return dres.minimum_distance.min_distance;
+    return dres.minimum_distance.distance;
   }
 
   /** \brief The distance between the robot model at state \e kstate to the nearest collision, ignoring self-collisions
@@ -687,7 +687,7 @@ public:
     dreq.acm = &acm;
     dreq.enableGroup(getCollisionRobot()->getRobotModel());
     getCollisionWorld()->distanceRobot(dreq, dres, *getCollisionRobot(), kstate);
-    return dres.minimum_distance.min_distance;
+    return dres.minimum_distance.distance;
   }
 
   /** \brief The distance between the robot model at state \e kstate to the nearest collision, ignoring self-collisions
@@ -703,7 +703,7 @@ public:
     dreq.acm = &acm;
     dreq.enableGroup(getCollisionRobotUnpadded()->getRobotModel());
     getCollisionWorld()->distanceRobot(dreq, dres, *getCollisionRobotUnpadded(), kstate);
-    return dres.minimum_distance.min_distance;
+    return dres.minimum_distance.distance;
   }
 
   /** \brief The distance between the robot model at state \e kstate to the nearest collision, ignoring self-collisions
@@ -718,7 +718,7 @@ public:
     dreq.acm = &acm;
     dreq.enableGroup(getCollisionRobotUnpadded()->getRobotModel());
     getCollisionWorld()->distanceRobot(dreq, dres, *getCollisionRobotUnpadded(), kstate);
-    return dres.minimum_distance.min_distance;
+    return dres.minimum_distance.distance;
   }
 
   /** \brief The distance between the robot model at state \e kstate to the nearest collision, ignoring self-collisions, if the robot has no padding. */

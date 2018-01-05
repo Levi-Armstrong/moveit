@@ -40,9 +40,9 @@
 #include <moveit/collision_detection/world.h>
 #include <moveit/collision_detection/collision_world.h>
 #include <moveit/macros/class_forward.h>
-#include <fcl/broadphase/broadphase.h>
-#include <fcl/collision.h>
-#include <fcl/distance.h>
+#include <fcl/broadphase/broadphase_collision_manager.h>
+#include <fcl/narrowphase/collision.h>
+#include <fcl/narrowphase/distance.h>
 #include <memory>
 #include <set>
 #include <moveit/macros/deprecation.h>
@@ -177,19 +177,19 @@ struct FCLGeometry
   {
   }
 
-  FCLGeometry(fcl::CollisionGeometry* collision_geometry, const robot_model::LinkModel* link, int shape_index)
+  FCLGeometry(fcl::CollisionGeometryd* collision_geometry, const robot_model::LinkModel* link, int shape_index)
     : collision_geometry_(collision_geometry), collision_geometry_data_(new CollisionGeometryData(link, shape_index))
   {
     collision_geometry_->setUserData(collision_geometry_data_.get());
   }
 
-  FCLGeometry(fcl::CollisionGeometry* collision_geometry, const robot_state::AttachedBody* ab, int shape_index)
+  FCLGeometry(fcl::CollisionGeometryd* collision_geometry, const robot_state::AttachedBody* ab, int shape_index)
     : collision_geometry_(collision_geometry), collision_geometry_data_(new CollisionGeometryData(ab, shape_index))
   {
     collision_geometry_->setUserData(collision_geometry_data_.get());
   }
 
-  FCLGeometry(fcl::CollisionGeometry* collision_geometry, const World::Object* obj, int shape_index)
+  FCLGeometry(fcl::CollisionGeometryd* collision_geometry, const World::Object* obj, int shape_index)
     : collision_geometry_(collision_geometry), collision_geometry_data_(new CollisionGeometryData(obj, shape_index))
   {
     collision_geometry_->setUserData(collision_geometry_data_.get());
@@ -205,17 +205,17 @@ struct FCLGeometry
     collision_geometry_->setUserData(collision_geometry_data_.get());
   }
 
-  std::shared_ptr<fcl::CollisionGeometry> collision_geometry_;
+  std::shared_ptr<fcl::CollisionGeometryd> collision_geometry_;
   CollisionGeometryDataPtr collision_geometry_data_;
 };
 
-typedef std::shared_ptr<fcl::CollisionObject> FCLCollisionObjectPtr;
-typedef std::shared_ptr<const fcl::CollisionObject> FCLCollisionObjectConstPtr;
+typedef std::shared_ptr<fcl::CollisionObjectd> FCLCollisionObjectPtr;
+typedef std::shared_ptr<const fcl::CollisionObjectd> FCLCollisionObjectConstPtr;
 
 struct FCLObject
 {
-  void registerTo(fcl::BroadPhaseCollisionManager* manager);
-  void unregisterFrom(fcl::BroadPhaseCollisionManager* manager);
+  void registerTo(fcl::BroadPhaseCollisionManagerd* manager);
+  void unregisterFrom(fcl::BroadPhaseCollisionManagerd* manager);
   void clear();
 
   std::vector<FCLCollisionObjectPtr> collision_objects_;
@@ -225,15 +225,15 @@ struct FCLObject
 struct FCLManager
 {
   FCLObject object_;
-  std::shared_ptr<fcl::BroadPhaseCollisionManager> manager_;
+  std::shared_ptr<fcl::BroadPhaseCollisionManagerd> manager_;
 };
 
-bool collisionCallback(fcl::CollisionObject* o1, fcl::CollisionObject* o2, void* data);
+bool collisionCallback(fcl::CollisionObjectd* o1, fcl::CollisionObjectd* o2, void* data);
 
 MOVEIT_DEPRECATED
-bool distanceCallback(fcl::CollisionObject* o1, fcl::CollisionObject* o2, void* data, double& min_dist);
+bool distanceCallback(fcl::CollisionObjectd* o1, fcl::CollisionObjectd* o2, void* data, double& min_dist);
 
-bool distanceDetailedCallback(fcl::CollisionObject* o1, fcl::CollisionObject* o2, void* data, double& min_dist);
+bool distanceDetailedCallback(fcl::CollisionObjectd* o1, fcl::CollisionObjectd* o2, void* data, double& min_dist);
 
 FCLGeometryConstPtr createCollisionGeometry(const shapes::ShapeConstPtr& shape, const robot_model::LinkModel* link,
                                             int shape_index);
@@ -249,21 +249,19 @@ FCLGeometryConstPtr createCollisionGeometry(const shapes::ShapeConstPtr& shape, 
                                             const World::Object* obj);
 void cleanCollisionGeometryCache();
 
-inline void transform2fcl(const Eigen::Affine3d& b, fcl::Transform3f& f)
+inline void transform2fcl(const Eigen::Affine3d& b, fcl::Transform3d& f)
 {
-  Eigen::Quaterniond q(b.rotation());
-  f.setTranslation(fcl::Vec3f(b.translation().x(), b.translation().y(), b.translation().z()));
-  f.setQuatRotation(fcl::Quaternion3f(q.w(), q.x(), q.y(), q.z()));
+  f = b;
 }
 
-inline fcl::Transform3f transform2fcl(const Eigen::Affine3d& b)
+inline fcl::Transform3d transform2fcl(const Eigen::Affine3d& b)
 {
-  fcl::Transform3f t;
+  fcl::Transform3d t;
   transform2fcl(b, t);
   return t;
 }
 
-inline void fcl2contact(const fcl::Contact& fc, Contact& c)
+inline void fcl2contact(const fcl::Contactd& fc, Contact& c)
 {
   c.pos = Eigen::Vector3d(fc.pos[0], fc.pos[1], fc.pos[2]);
   c.normal = Eigen::Vector3d(fc.normal[0], fc.normal[1], fc.normal[2]);
@@ -276,7 +274,7 @@ inline void fcl2contact(const fcl::Contact& fc, Contact& c)
   c.body_type_2 = cgd2->type;
 }
 
-inline void fcl2costsource(const fcl::CostSource& fcs, CostSource& cs)
+inline void fcl2costsource(const fcl::CostSourced& fcs, CostSource& cs)
 {
   cs.aabb_min[0] = fcs.aabb_min[0];
   cs.aabb_min[1] = fcs.aabb_min[1];

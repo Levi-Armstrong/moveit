@@ -14,6 +14,9 @@ find_package(console_bridge REQUIRED)
 
 find_package(Eigen3 REQUIRED)
 
+#SET(ENV{PKG_CONFIG_PATH} "/usr/local/lib/pkgconfig:$ENV{PKG_CONFIG_PATH}")
+#SET(ENV{LD_LIBRARY_PATH} "/usr/local/lib:$ENV{LD_LIBRARY_PATH}")
+
 # Eigen 3.2 (Wily) only provides EIGEN3_INCLUDE_DIR, not EIGEN3_INCLUDE_DIRS
 if(NOT EIGEN3_INCLUDE_DIRS)
   set(EIGEN3_INCLUDE_DIRS ${EIGEN3_INCLUDE_DIR})
@@ -133,9 +136,6 @@ catkin_package(
     urdfdom_headers
     )
 
-include_directories(SYSTEM ${EIGEN3_INCLUDE_DIRS}
-                           ${LIBFCL_INCLUDE_DIRS}
-                           )
 
 include_directories(${THIS_PACKAGE_INCLUDE_DIRS}
                     ${VERSION_FILE_PATH}
@@ -145,6 +145,8 @@ include_directories(${THIS_PACKAGE_INCLUDE_DIRS}
                     ${urdfdom_INCLUDE_DIRS}
                     ${urdfdom_headers_INCLUDE_DIRS}
                     ${OCTOMAP_INCLUDE_DIRS}
+                    ${EIGEN3_INCLUDE_DIRS}
+                    ${LIBFCL_INCLUDE_DIRS}
                     )
 
 # Generate and install version.h

@@ -38,7 +38,7 @@
 #define MOVEIT_COLLISION_DETECTION_FCL_COLLISION_WORLD_FCL_
 
 #include <moveit/collision_detection_fcl/collision_robot_fcl.h>
-#include <fcl/broadphase/broadphase.h>
+#include <fcl/broadphase/broadphase_collision_manager.h>
 #include <memory>
 #include <moveit/macros/deprecation.h>
 
@@ -107,7 +107,7 @@ protected:
   void constructFCLObject(const World::Object* obj, FCLObject& fcl_obj) const;
   void updateFCLObject(const std::string& id);
 
-  std::unique_ptr<fcl::BroadPhaseCollisionManager> manager_;
+  std::unique_ptr<fcl::BroadPhaseCollisionManagerd> manager_;
   std::map<std::string, FCLObject> fcl_objs_;
 
 private:

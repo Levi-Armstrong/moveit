@@ -211,6 +211,14 @@ public:
   virtual void distanceSelf(const DistanceRequest& req, DistanceResult& res,
                             const robot_state::RobotState& state) const = 0;
 
+  /** \brief The distance to self-collision given the robot is traveling between state1 \e state1 and state2 \e state2.
+   *  @param req A DistanceRequest object that encapsulates the distance request
+   *  @param res A DistanceResult object that encapsulates the distance result
+   *  @param state1 The kinematic state at the start of the segment for which checks are being made
+   *  @param state2 The kinematic state at the end of the segment for which checks are being made */
+  virtual void distanceSelf(const DistanceRequest& req, DistanceResult& res,
+                            const robot_state::RobotState& state1, const robot_state::RobotState& state2) const = 0;
+
   /** \brief The distance to self-collision given the robot is at state \e state.
       @param req A DistanceRequest object that encapsulates the distance request
       @param res A DistanceResult object that encapsulates the distance result
@@ -219,6 +227,7 @@ public:
       @param other_state The state of the other robot */
   virtual void distanceOther(const DistanceRequest& req, DistanceResult& res, const robot_state::RobotState& state,
                              const CollisionRobot& other_robot, const robot_state::RobotState& other_state) const = 0;
+
 
   /** @brief The kinematic model corresponding to this collision model*/
   const robot_model::RobotModelConstPtr& getRobotModel() const

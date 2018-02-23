@@ -239,7 +239,7 @@ struct DistanceRequest
   void enableGroup(const robot_model::RobotModelConstPtr& kmodel)
   {
     if (kmodel->hasJointModelGroup(group_name))
-      active_components_only = &kmodel->getJointModelGroup(group_name)->getUpdatedLinkModelsWithGeometrySet();
+      active_components_only = &kmodel->getJointModelGroup(group_name)->getUpdatedLinkModelsSet();
     else
       active_components_only = nullptr;
   }
@@ -276,6 +276,14 @@ struct DistanceRequest
   bool compute_gradient;
 };
 
+enum ContinouseCollisionType
+{
+  CCType_None,
+  CCType_Time0,
+  CCType_Time1,
+  CCType_Between
+};
+
 struct DistanceResultsData
 {
   DistanceResultsData()
@@ -292,8 +300,21 @@ struct DistanceResultsData
   /// The object link names
   std::string link_names[2];
 
+  /// The object body type
+  BodyType body_types[2];
+
   /// A normalized vector pointing from link_names[0] to link_names[1].
   Eigen::Vector3d normal;
+
+  /// The nearest point on link_names found during continuous collision
+  /// if the collision occurs between two states.
+  Eigen::Vector3d cc_nearest_points[2];
+
+  /// Time of contact during continuous collision
+  double cc_time;
+
+  /// Continuous Collision Type
+  ContinouseCollisionType cc_type;
 
   /// Clear structure data
   void clear()
@@ -303,7 +324,13 @@ struct DistanceResultsData
     nearest_points[1].setZero();
     link_names[0] = "";
     link_names[1] = "";
+    body_types[0] = BodyType::WORLD_OBJECT;
+    body_types[1] = BodyType::WORLD_OBJECT;
     normal.setZero();
+    cc_nearest_points[0].setZero();
+    cc_nearest_points[1].setZero();
+    cc_time = -1;
+    cc_type = CCType_None;
   }
 
   /// Update structure data given DistanceResultsData object
@@ -314,7 +341,13 @@ struct DistanceResultsData
     nearest_points[1] = other.nearest_points[1];
     link_names[0] = other.link_names[0];
     link_names[1] = other.link_names[1];
+    body_types[0] = other.body_types[0];
+    body_types[1] = other.body_types[1];
     normal = other.normal;
+    cc_nearest_points[0] = other.cc_nearest_points[0];
+    cc_nearest_points[1] = other.cc_nearest_points[1];
+    cc_time = other.cc_time;
+    cc_type = other.cc_type;
   }
 };
 

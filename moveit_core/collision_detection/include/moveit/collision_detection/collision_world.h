@@ -226,6 +226,15 @@ public:
   virtual void distanceRobot(const DistanceRequest& req, DistanceResult& res, const CollisionRobot& robot,
                              const robot_state::RobotState& state) const = 0;
 
+  /** \brief Compute the distance between a robot and the world
+   *  @param req A DistanceRequest object that encapsulates the distance request
+   *  @param res A DistanceResult object that encapsulates the distance result
+   *  @param robot The robot to check distance for
+   *  @param state1 The kinematic state at the start of the segment for which checks are being made
+   *  @param state2 The kinematic state at the end of the segment for which checks are being made */
+  virtual void distanceRobot(const DistanceRequest& req, DistanceResult& res, const CollisionRobot& robot,
+                             const robot_state::RobotState& state1, const robot_state::RobotState& state2) const = 0;
+
   /** \brief Compute the distance between another world
    *  @param req A DistanceRequest object that encapsulates the distance request
    *  @param res A DistanceResult object that encapsulates the distance result

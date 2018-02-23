@@ -334,6 +334,14 @@ void collision_detection::CollisionWorldFCL::distanceRobot(const DistanceRequest
   distanceRobotHelper(req, res, robot, state);
 }
 
+void collision_detection::CollisionWorldFCL::distanceRobot(const DistanceRequest &req, DistanceResult &res,
+                                                           const CollisionRobot &robot,
+                                                           const moveit::core::RobotState &state1,
+                                                           const moveit::core::RobotState &state2) const
+{
+  CONSOLE_BRIDGE_logError("FCL continuous collision checking not yet implemented");
+}
+
 double collision_detection::CollisionWorldFCL::distanceWorld(const CollisionWorld& world, bool verbose) const
 {
   DistanceRequest dreq;

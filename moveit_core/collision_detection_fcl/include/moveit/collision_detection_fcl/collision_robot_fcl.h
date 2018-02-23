@@ -93,6 +93,9 @@ public:
   virtual void distanceSelf(const DistanceRequest& req, DistanceResult& res,
                             const robot_state::RobotState& state) const override;
 
+  virtual void distanceSelf(const DistanceRequest& req, DistanceResult& res,
+                            const robot_state::RobotState& state1, const robot_state::RobotState& state2) const;
+
   virtual void distanceOther(const DistanceRequest& req, DistanceResult& res, const robot_state::RobotState& state,
                              const CollisionRobot& other_robot,
                              const robot_state::RobotState& other_state) const override;

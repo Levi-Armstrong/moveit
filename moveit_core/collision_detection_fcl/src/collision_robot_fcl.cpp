@@ -319,6 +319,12 @@ void collision_detection::CollisionRobotFCL::distanceSelf(const DistanceRequest&
   distanceSelfHelper(req, res, state);
 }
 
+void collision_detection::CollisionRobotFCL::distanceSelf(const DistanceRequest& req, DistanceResult& res,
+                                                          const robot_state::RobotState& state1, const robot_state::RobotState& state2) const
+{
+  CONSOLE_BRIDGE_logError("FCL continuous distance checking not yet implemented");
+}
+
 void collision_detection::CollisionRobotFCL::distanceSelfHelper(const DistanceRequest& req, DistanceResult& res,
                                                                 const robot_state::RobotState& state) const
 {

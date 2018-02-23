@@ -179,6 +179,12 @@ public:
     logError("Not implemented");
   }
 
+  virtual void distanceSelf(const DistanceRequest& req, DistanceResult& res,
+                            const robot_state::RobotState& state1, const robot_state::RobotState& state2) const
+  {
+    logError("Not implemented");
+  }
+
   virtual void distanceOther(const DistanceRequest& req, DistanceResult& res, const robot_state::RobotState& state,
                              const CollisionRobot& other_robot, const robot_state::RobotState& other_state) const
   {
